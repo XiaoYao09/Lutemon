@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="#FFFFFF">
+
+    <!-- 区域标题 -->
+    <TextView
+        android:id="@+id/txtListTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Viewing Lutemons"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="12dp"
+        android:background="#8000FF"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Lutemon 列表区域 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerLutemons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="4dp"
+        android:scrollbars="vertical" />
+</LinearLayout>

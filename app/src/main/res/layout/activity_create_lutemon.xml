@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Lutemon Name"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="16dp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupColors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
+
+            <RadioButton
+                android:id="@+id/radioWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="White (ATK 5, DEF 4, HP 20, SPD 1)" />
+
+            <RadioButton
+                android:id="@+id/radioGreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Green (ATK 6, DEF 3, HP 19, SPD 2)" />
+
+            <RadioButton
+                android:id="@+id/radioPink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pink (ATK 7, DEF 2, HP 18, SPD 3)" />
+
+            <RadioButton
+                android:id="@+id/radioOrange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Orange (ATK 8, DEF 1, HP 17, SPD 4)" />
+
+            <RadioButton
+                android:id="@+id/radioBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Black (ATK 9, DEF 0, HP 16, SPD 5)" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnCreate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create" />
+    </LinearLayout>
+</ScrollView>
+

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <!-- 标题 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BATTLE"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background="#8000FF"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Lutemon 对战展示区 -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
+
+            <!-- Lutemon 1 -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgL1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_launcher_foreground"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:id="@+id/txtL1Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="L1 Name" />
+
+                <TextView
+                    android:id="@+id/txtL1Stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="L1 Stats" />
+            </LinearLayout>
+
+            <!-- VS -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VS"
+                android:textSize="20sp"
+                android:layout_marginHorizontal="12dp"
+                android:gravity="center_vertical" />
+
+            <!-- Lutemon 2 -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgL2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_launcher_foreground"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:id="@+id/txtL2Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="L2 Name" />
+
+                <TextView
+                    android:id="@+id/txtL2Stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="L2 Stats" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 战斗日志 -->
+        <TextView
+            android:id="@+id/txtBattleLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Battle log..."
+            android:padding="8dp"
+            android:layout_marginTop="16dp"
+            android:background="#DDDDDD" />
+
+        <!-- 按钮区域 -->
+        <Button
+            android:id="@+id/btnNextAttack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Next Attack"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#8000FF"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnEndBattle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="End Battle"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#AAAAAA"
+            android:textColor="#000000" />
+    </LinearLayout>
+</ScrollView>
