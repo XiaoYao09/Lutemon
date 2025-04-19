@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.*;
+import android.content.Intent;
+import android.view.View;
+
 
 public class StatisticsActivity extends AppCompatActivity {
 
@@ -54,9 +57,12 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         // 点击按钮查看图表（可选）
-        findViewById(R.id.btnViewCharts).setOnClickListener(v -> {
-            Toast.makeText(this, "Charts coming soon!", Toast.LENGTH_SHORT).show();
+        Button btnViewCharts = findViewById(R.id.btnViewCharts);
+        btnViewCharts.setOnClickListener(v -> {
+            Intent intent = new Intent(StatisticsActivity.this, ViewChartsActivity.class);
+            startActivity(intent);
         });
+
     }
 
     private void setLutemonImage(ImageView view, String color) {
@@ -80,4 +86,6 @@ public class StatisticsActivity extends AppCompatActivity {
                 view.setImageResource(R.drawable.ic_launcher_foreground);
         }
     }
+
+
 }

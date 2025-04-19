@@ -44,15 +44,12 @@ public class CreateLutemonActivity extends AppCompatActivity {
             }
 
             if (lutemon != null) {
-                Storage.getInstance().addLutemonToHome(lutemon);
-
-                // ✅ 统计创建次数
-                StatisticsManager.getInstance().incrementCreated();
-
+                Storage.getInstance().addLutemonToHome(lutemon); // ✅ 内部已包含 incrementCreated()
                 Toast.makeText(this, "Lutemon created!", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
     }
 }
+
 

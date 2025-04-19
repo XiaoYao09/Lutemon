@@ -46,7 +46,7 @@ public class Storage {
             training.put(id, l);
         } else if (to.equals("battle")) {
             battle.put(id, l);
-            StatisticsManager.getInstance().incrementBattle(l.getId()); // ✅ 记录战斗数
+
         }
     }
 
@@ -79,7 +79,7 @@ public class Storage {
         battle.remove(id);
     }
 
-    // 返回所有 Lutemon（用于统计页面）
+    // ✅ 返回所有 Lutemon（用于图表、统计）
     public List<Lutemon> getAllLutemons() {
         List<Lutemon> all = new ArrayList<>();
         all.addAll(home.values());
@@ -88,6 +88,7 @@ public class Storage {
         return all;
     }
 }
+
 
 
 
