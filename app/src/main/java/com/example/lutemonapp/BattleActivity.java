@@ -2,18 +2,24 @@ package com.example.lutemonapp;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.*;
+import androidx.appcompat.app.AlertDialog;
+import android.content.DialogInterface;
+
 
 public class BattleActivity extends AppCompatActivity {
 
     private TextView txtL1Name, txtL2Name, txtL1Stats, txtL2Stats, txtBattleLog;
-    private ImageView imgL1, imgL2;
+    private ImageView imgL1, imgL2, imgSword;
     private Button btnAttack, btnEnd;
     private Lutemon l1, l2;
     private Random random = new Random();
     private StringBuilder log = new StringBuilder();
+    private boolean isL1Turn = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,7 @@ public class BattleActivity extends AppCompatActivity {
         txtBattleLog = findViewById(R.id.txtBattleLog);
         imgL1 = findViewById(R.id.imgL1);
         imgL2 = findViewById(R.id.imgL2);
+        imgSword = findViewById(R.id.imgSword);
         btnAttack = findViewById(R.id.btnNextAttack);
         btnEnd = findViewById(R.id.btnEndBattle);
 
@@ -38,15 +45,8 @@ public class BattleActivity extends AppCompatActivity {
             return;
         }
 
-        Collections.shuffle(fighters);
-        l1 = fighters.get(0);
-        l2 = fighters.get(1);
+        showLutemonSelectionDialog(fighters); // 弹出选择对战 Lutemon 的弹窗
 
-        // ✅ 记录参战次数
-        StatisticsManager.getInstance().incrementBattle(l1.getId());
-        StatisticsManager.getInstance().incrementBattle(l2.getId());
-
-        updateUI();
 
         btnAttack.setOnClickListener(v -> doBattleTurn());
 
@@ -59,6 +59,47 @@ public class BattleActivity extends AppCompatActivity {
             finish();
         });
     }
+    private void showLutemonSelectionDialog(List<Lutemon> battleLutemons) {
+        String[] names = new String[battleLutemons.size()];
+        boolean[] checked = new boolean[battleLutemons.size()];
+
+        for (int i = 0; i < battleLutemons.size(); i++) {
+            Lutemon l = battleLutemons.get(i);
+            names[i] = l.getName() + " (" + l.getColor() + ")";
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select 2 Lutemons for Battle");
+        builder.setMultiChoiceItems(names, checked, (dialog, which, isChecked) -> {
+            checked[which] = isChecked;
+        });
+
+        builder.setPositiveButton("Start", (dialog, which) -> {
+            List<Lutemon> selected = new ArrayList<>();
+            for (int i = 0; i < checked.length; i++) {
+                if (checked[i]) {
+                    selected.add(battleLutemons.get(i));
+                }
+            }
+
+            if (selected.size() == 2) {
+                l1 = selected.get(0);
+                l2 = selected.get(1);
+
+                StatisticsManager.getInstance().incrementBattle(l1.getId());
+                StatisticsManager.getInstance().incrementBattle(l2.getId());
+
+                updateUI();
+            } else {
+                Toast.makeText(this, "Please select exactly 2 Lutemons", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> finish());
+        builder.show();
+    }
+
 
     private void updateUI() {
         txtL1Name.setText(l1.getName());
@@ -72,37 +113,35 @@ public class BattleActivity extends AppCompatActivity {
 
         txtBattleLog.setText(log.toString());
 
-        // ✅ 设置头像
         setLutemonImage(imgL1, l1.getColor());
         setLutemonImage(imgL2, l2.getColor());
     }
 
     private void doBattleTurn() {
-        Lutemon first = (l1.getSpeed() >= l2.getSpeed()) ? l1 : l2;
-        Lutemon second = (first == l1) ? l2 : l1;
+        if (l1 == null || l2 == null || l1.isDead() || l2.isDead()) return;
 
-        attack(first, second);
-        if (!second.isDead()) {
-            attack(second, first);
-        }
+        Lutemon attacker = isL1Turn ? l1 : l2;
+        Lutemon defender = isL1Turn ? l2 : l1;
 
-        if (l1.isDead() || l2.isDead()) {
+        playAttackAnimation(isL1Turn);
+        attack(attacker, defender);
+
+        if (defender.isDead()) {
             btnAttack.setEnabled(false);
-            Lutemon winner = l1.isDead() ? l2 : l1;
-            winner.gainExperience();
-
-            // ✅ 记录胜利次数
-            StatisticsManager.getInstance().incrementWin(winner.getId());
-
-            log.append("\n").append(winner.getName()).append(" wins and gains EXP!");
+            attacker.gainExperience();
+            StatisticsManager.getInstance().incrementWin(attacker.getId());
+            log.append("\n").append(attacker.getName()).append(" wins and gains EXP!");
         }
 
+        isL1Turn = !isL1Turn;
         updateUI();
     }
 
+
+
     private void attack(Lutemon attacker, Lutemon defender) {
         double baseAttack = attacker.attack() + Math.random() * 3;
-        boolean isCrit = Math.random() < 0.05;  // ✅ 5% 暴击概率
+        boolean isCrit = Math.random() < 0.05;
         int finalAttack = (int) (isCrit ? baseAttack * 3 : baseAttack);
 
         defender.defense(finalAttack);
@@ -115,8 +154,7 @@ public class BattleActivity extends AppCompatActivity {
             log.append(" ⚡Critical Hit!");
         }
 
-        log.append(" [Damage: ").append(finalAttack).append("]")
-                .append("\n")
+        log.append(" [Damage: ").append(finalAttack).append("] \n")
                 .append(defender.getName()).append(" HP: ").append(defender.getHealth())
                 .append("\n");
     }
@@ -142,7 +180,38 @@ public class BattleActivity extends AppCompatActivity {
                 imageView.setImageResource(R.drawable.ic_launcher_foreground);
         }
     }
+    // 添加一个变量控制回合顺序
+
+
+
+
+
+    private void playAttackAnimation(boolean fromLeft) {
+        imgSword.setVisibility(View.VISIBLE);
+
+        float fromX = fromLeft ? -500f : 500f;
+        float toX = 0f;
+
+        // 设置图像方向（旋转 180 度）
+        imgSword.setRotation(fromLeft ? 0 : 180); // 从左攻击 → 正常；从右攻击 → 翻转
+
+        TranslateAnimation animation = new TranslateAnimation(fromX, toX, 0, 0);
+        animation.setDuration(500);
+        animation.setFillAfter(false);
+
+        imgSword.startAnimation(animation);
+
+        animation.setAnimationListener(new android.view.animation.Animation.AnimationListener() {
+            @Override public void onAnimationStart(android.view.animation.Animation animation) {}
+            @Override public void onAnimationRepeat(android.view.animation.Animation animation) {}
+            @Override public void onAnimationEnd(android.view.animation.Animation animation) {
+                imgSword.setVisibility(View.GONE);
+            }
+        });
+    }
+
 }
+
 
 
 

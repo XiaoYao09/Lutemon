@@ -27,30 +27,39 @@ public class LutemonAdapter extends RecyclerView.Adapter<LutemonAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Lutemon l = lutemons.get(position);
+
         holder.txtInfo.setText(
                 l.getName() + " (" + l.getColor() + ")\n" +
-                        "ATK: " + l.getAttack() + " | DEF: " + l.getDefense() + " | HP: " + l.getHealth() + "/" + l.getMaxHealth() + "\n" +
-                        "EXP: " + l.getExperience() + " | SPD: " + l.getSpeed()
+                        "ATK: " + l.getAttack() +
+                        " | DEF: " + l.getDefense() +
+                        " | HP: " + l.getHealth() + "/" + l.getMaxHealth() +
+                        " | EXP: " + l.getExperience() +
+                        " | SPD: " + l.getSpeed()
         );
 
+        // 移动到 Training
         holder.btnTrain.setOnClickListener(v -> {
             Storage.getInstance().moveLutemon(l.getId(), "home", "training");
-            lutemons.remove(position);
-            notifyItemRemoved(position);
-            Toast.makeText(v.getContext(), "Moved to Training", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), l.getName() + " moved to Training", Toast.LENGTH_SHORT).show();
         });
 
+        // 移动到 Battle
         holder.btnBattle.setOnClickListener(v -> {
             Storage.getInstance().moveLutemon(l.getId(), "home", "battle");
-            lutemons.remove(position);
-            notifyItemRemoved(position);
-            Toast.makeText(v.getContext(), "Moved to Battle", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), l.getName() + " moved to Battle", Toast.LENGTH_SHORT).show();
         });
     }
 
     @Override
     public int getItemCount() {
         return lutemons.size();
+    }
+
+    // ✅ 用于外部刷新数据时调用
+    public void updateData(List<Lutemon> newLutemons) {
+        lutemons.clear();
+        lutemons.addAll(newLutemons);
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,4 +74,6 @@ public class LutemonAdapter extends RecyclerView.Adapter<LutemonAdapter.ViewHold
         }
     }
 }
+
+
 

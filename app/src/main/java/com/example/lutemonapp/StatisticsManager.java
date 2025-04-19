@@ -63,6 +63,14 @@ public class StatisticsManager {
     public int getTraining(int id) {
         return trainingCounts.getOrDefault(id, 0);
     }
+    public void incrementTraining(int id) {
+        if (!trainingCounts.containsKey(id)) {
+            trainingCounts.put(id, 1);
+        } else {
+            trainingCounts.put(id, trainingCounts.get(id) + 1);
+        }
+    }
+
 
     public int getTotalTraining() {
         int sum = 0;

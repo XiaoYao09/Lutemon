@@ -11,6 +11,12 @@ public abstract class Lutemon {
     protected int speed;
     protected int id;
 
+    // 新增：记录初始属性
+    private int baseAttack;
+    private int baseDefense;
+    private int baseMaxHealth;
+    private int baseSpeed;
+
     private static int idCounter = 0;
 
     public Lutemon(String name, String color, int attack, int defense, int maxHealth, int speed) {
@@ -23,6 +29,12 @@ public abstract class Lutemon {
         this.experience = 0;
         this.speed = speed;
         this.id = idCounter++;
+
+        // 保存初始属性
+        this.baseAttack = attack;
+        this.baseDefense = defense;
+        this.baseMaxHealth = maxHealth;
+        this.baseSpeed = speed;
     }
 
     // 攻击力（包含经验加成）
@@ -43,9 +55,24 @@ public abstract class Lutemon {
         return health <= 0;
     }
 
-    // 胜利后增加经验
+    // 胜利后增加经验 + 所有属性
     public void gainExperience() {
-        experience++;
+        experience += 1;
+        attack += 1;
+        defense += 1;
+        maxHealth += 1;
+        speed += 1;
+        health = maxHealth;
+    }
+
+    // ❗死亡后属性归零（调用此方法即可）
+    public void resetStats() {
+        experience = 0;
+        attack = baseAttack;
+        defense = baseDefense;
+        maxHealth = baseMaxHealth;
+        speed = baseSpeed;
+        health = maxHealth;
     }
 
     // 返回 Home 时恢复生命
@@ -92,4 +119,3 @@ public abstract class Lutemon {
         return id;
     }
 }
-

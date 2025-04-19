@@ -21,9 +21,10 @@ public class Storage {
         return instance;
     }
 
-    // 添加 Lutemon 到 home 区域
+    // 添加 Lutemon 到 home 区域，并统计创建
     public void addLutemonToHome(Lutemon lutemon) {
         home.put(lutemon.getId(), lutemon);
+        StatisticsManager.getInstance().incrementCreated(); // ✅ 记录创建数
     }
 
     // 移动 Lutemon 到其他区域
@@ -45,6 +46,7 @@ public class Storage {
             training.put(id, l);
         } else if (to.equals("battle")) {
             battle.put(id, l);
+            StatisticsManager.getInstance().incrementBattle(l.getId()); // ✅ 记录战斗数
         }
     }
 
@@ -77,7 +79,7 @@ public class Storage {
         battle.remove(id);
     }
 
-    // ✅ 返回所有 Lutemon（用于统计页面）
+    // 返回所有 Lutemon（用于统计页面）
     public List<Lutemon> getAllLutemons() {
         List<Lutemon> all = new ArrayList<>();
         all.addAll(home.values());
@@ -86,5 +88,6 @@ public class Storage {
         return all;
     }
 }
+
 
 

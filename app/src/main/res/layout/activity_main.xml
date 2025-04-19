@@ -1,42 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:gravity="center_horizontal">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="LUTEMON BATTLE"
-            android:textAlignment="center"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
             android:background="#8000FF"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
             android:padding="12dp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Home Section -->
         <TextView
-            android:text="Lutemons at Home"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginBottom="4dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Lutemons at Home"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/txtHomeCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You have 0 Lutemons at home"
-            android:layout_marginBottom="8dp" />
+            android:text="You have 0 Lutemons at home" />
         <Button
             android:id="@+id/btnViewHome"
             android:layout_width="match_parent"
@@ -46,20 +42,16 @@
             android:textColor="#FFFFFF"
             android:layout_marginBottom="16dp" />
 
-        <!-- Training Section -->
         <TextView
-            android:text="Training Area"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginBottom="4dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Training Area"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/txtTrainingCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You have 0 Lutemon training"
-            android:layout_marginBottom="8dp" />
+            android:text="You have 0 Lutemon training" />
         <Button
             android:id="@+id/btnViewTraining"
             android:layout_width="match_parent"
@@ -69,36 +61,42 @@
             android:textColor="#FFFFFF"
             android:layout_marginBottom="16dp" />
 
-        <!-- Battle Section -->
         <TextView
-            android:text="Battle Arena"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginBottom="4dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Battle Arena"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/txtBattleCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You have 0 Lutemons ready"
-            android:layout_marginBottom="8dp" />
+            android:text="You have 0 Lutemons ready" />
+
         <Button
             android:id="@+id/btnViewBattle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View Battle Arena"
+            android:layout_marginBottom="16dp"
             android:backgroundTint="#8000FF"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="24dp" />
+            android:text="View Battle Area"
+            android:textColor="#FFFFFF" />
 
-        <!-- Create Button -->
         <Button
             android:id="@+id/btnCreate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Create New Lutemon"
             android:backgroundTint="#4CAF50"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnViewStatistics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Statistics"
+            android:backgroundTint="#FFA500"
             android:textColor="#FFFFFF" />
+
     </LinearLayout>
 </ScrollView>

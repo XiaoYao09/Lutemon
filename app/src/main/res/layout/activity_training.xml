@@ -4,24 +4,26 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal">
 
+        <!-- Title -->
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Training Area"
             android:textSize="20sp"
             android:textStyle="bold"
             android:background="#8000FF"
             android:textColor="#FFFFFF"
             android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:padding="12dp"
             android:layout_marginBottom="16dp" />
 
+        <!-- Lutemon Image -->
         <ImageView
             android:id="@+id/imgLutemon"
             android:layout_width="80dp"
@@ -29,6 +31,7 @@
             android:layout_marginBottom="8dp"
             android:src="@drawable/ic_launcher_foreground" />
 
+        <!-- Lutemon Name -->
         <TextView
             android:id="@+id/txtTrainName"
             android:layout_width="wrap_content"
@@ -38,6 +41,7 @@
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
+        <!-- Stats -->
         <TextView
             android:id="@+id/txtTrainStats"
             android:layout_width="wrap_content"
@@ -46,21 +50,24 @@
             android:textSize="14sp"
             android:layout_marginBottom="16dp" />
 
+        <!-- Training image -->
         <ImageView
             android:layout_width="200dp"
             android:layout_height="120dp"
             android:src="@drawable/training_mockup"
             android:layout_marginBottom="8dp" />
 
+        <!-- Text -->
         <TextView
-            android:text="Training in progress..."
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Training in progress..."
             android:layout_marginBottom="16dp"
             android:textSize="16sp" />
 
+        <!-- Select Lutemon -->
         <Button
-            android:id="@+id/btnTrainExp"
+            android:id="@+id/btnTrainSelect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Train Selected"
@@ -68,6 +75,17 @@
             android:textColor="#FFFFFF"
             android:layout_marginBottom="8dp" />
 
+        <!-- Train -->
+        <Button
+            android:id="@+id/btnTrainExp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Train Now"
+            android:backgroundTint="#8000FF"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Move -->
         <Button
             android:id="@+id/btnMoveHome"
             android:layout_width="match_parent"
@@ -75,7 +93,7 @@
             android:text="Move to Home"
             android:backgroundTint="#8000FF"
             android:textColor="#FFFFFF" />
-
     </LinearLayout>
 </ScrollView>
+
 

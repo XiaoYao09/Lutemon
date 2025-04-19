@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal">
 
-        <!-- 标题 -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,28 +22,25 @@
             android:padding="12dp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Lutemon 对战展示区 -->
-        <LinearLayout
-            android:orientation="horizontal"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="16dp">
+            android:padding="12dp">
 
             <!-- Lutemon 1 -->
             <LinearLayout
+                android:id="@+id/boxL1"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true">
 
                 <ImageView
                     android:id="@+id/imgL1"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/ic_launcher_foreground"
-                    android:layout_marginBottom="4dp" />
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/ic_launcher_foreground" />
 
                 <TextView
                     android:id="@+id/txtL1Name"
@@ -59,29 +55,20 @@
                     android:text="L1 Stats" />
             </LinearLayout>
 
-            <!-- VS -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="VS"
-                android:textSize="20sp"
-                android:layout_marginHorizontal="12dp"
-                android:gravity="center_vertical" />
-
             <!-- Lutemon 2 -->
             <LinearLayout
+                android:id="@+id/boxL2"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true">
 
                 <ImageView
                     android:id="@+id/imgL2"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/ic_launcher_foreground"
-                    android:layout_marginBottom="4dp" />
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/ic_launcher_foreground" />
 
                 <TextView
                     android:id="@+id/txtL2Name"
@@ -95,9 +82,19 @@
                     android:layout_height="wrap_content"
                     android:text="L2 Stats" />
             </LinearLayout>
-        </LinearLayout>
 
-        <!-- 战斗日志 -->
+            <!-- Sword -->
+            <ImageView
+                android:id="@+id/imgSword"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/sword"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <!-- Battle log -->
         <TextView
             android:id="@+id/txtBattleLog"
             android:layout_width="match_parent"
@@ -107,7 +104,7 @@
             android:layout_marginTop="16dp"
             android:background="#DDDDDD" />
 
-        <!-- 按钮区域 -->
+        <!-- Controls -->
         <Button
             android:id="@+id/btnNextAttack"
             android:layout_width="match_parent"

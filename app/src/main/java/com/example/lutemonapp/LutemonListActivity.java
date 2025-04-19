@@ -1,18 +1,15 @@
 package com.example.lutemonapp;
 
 import android.os.Bundle;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
 
 public class LutemonListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private LutemonAdapter adapter;
-    private TextView txtListTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,27 +19,21 @@ public class LutemonListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerLutemons);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        txtListTitle = findViewById(R.id.txtListTitle); // Optional 显示当前区域标题
-
-        // 获取传来的区域名参数（默认 "home"）
-        String area = getIntent().getStringExtra("area");
-        if (area == null) {
-            area = "home";
-        }
-
-        // 设置页面标题
-        txtListTitle.setText("Viewing Lutemons in " + capitalize(area));
-
-        // 加载对应区域 Lutemon 列表
-        List<Lutemon> lutemons = Storage.getInstance().getLutemonsByArea(area);
-        adapter = new LutemonAdapter(lutemons);
+        // 初始加载 home 区域的 Lutemon
+        List<Lutemon> homeLutemons = Storage.getInstance().getLutemonsByArea("home");
+        adapter = new LutemonAdapter(homeLutemons);
         recyclerView.setAdapter(adapter);
     }
 
-    // 首字母大写辅助函数
-    private String capitalize(String input) {
-        if (input == null || input.length() == 0) return input;
-        return input.substring(0, 1).toUpperCase() + input.substring(1);
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 每次回到这个页面时刷新 home 区域数据
+        List<Lutemon> updatedHomeLutemons = Storage.getInstance().getLutemonsByArea("home");
+        adapter.updateData(updatedHomeLutemons);
     }
 }
+
+
 

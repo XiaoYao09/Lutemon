@@ -2,15 +2,20 @@ package com.example.lutemonapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView txtHomeCount, txtTrainingCount, txtBattleCount;
-    private Button btnViewHome, btnViewTraining, btnViewBattle, btnCreate;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCounts();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,41 +26,23 @@ public class MainActivity extends AppCompatActivity {
         txtTrainingCount = findViewById(R.id.txtTrainingCount);
         txtBattleCount = findViewById(R.id.txtBattleCount);
 
-        btnViewHome = findViewById(R.id.btnViewHome);
-        btnViewTraining = findViewById(R.id.btnViewTraining);
-        btnViewBattle = findViewById(R.id.btnViewBattle);
-        btnCreate = findViewById(R.id.btnCreate);
+        Button btnViewHome = findViewById(R.id.btnViewHome);
+        Button btnViewTraining = findViewById(R.id.btnViewTraining);
+        Button btnViewBattle = findViewById(R.id.btnViewBattle);
+        Button btnCreate = findViewById(R.id.btnCreate);
+        Button btnViewStatistics = findViewById(R.id.btnViewStatistics);
 
-        // 更新首页数量显示
+        btnViewHome.setOnClickListener(v -> startActivity(new Intent(this, LutemonListActivity.class)));
+
+        btnViewTraining.setOnClickListener(v -> startActivity(new Intent(this, TrainingActivity.class)));
+
+        btnViewBattle.setOnClickListener(v -> startActivity(new Intent(this, BattleActivity.class)));
+
+        btnCreate.setOnClickListener(v -> startActivity(new Intent(this, CreateLutemonActivity.class)));
+
+        btnViewStatistics.setOnClickListener(v -> startActivity(new Intent(this, StatisticsActivity.class)));
+
         updateCounts();
-
-        // 点击跳转
-        btnCreate.setOnClickListener(v -> {
-            Intent intent = new Intent(this, CreateLutemonActivity.class);
-            startActivity(intent);
-        });
-
-        btnViewHome.setOnClickListener(v -> {
-            Intent intent = new Intent(this, LutemonListActivity.class);
-            intent.putExtra("area", "home");
-            startActivity(intent);
-        });
-
-        btnViewTraining.setOnClickListener(v -> {
-            Intent intent = new Intent(this, TrainingActivity.class);
-            startActivity(intent);
-        });
-
-        btnViewBattle.setOnClickListener(v -> {
-            Intent intent = new Intent(this, BattleActivity.class);
-            startActivity(intent);
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateCounts(); // 每次回来都刷新统计
     }
 
     private void updateCounts() {

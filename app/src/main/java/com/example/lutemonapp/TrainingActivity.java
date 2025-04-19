@@ -2,102 +2,118 @@ package com.example.lutemonapp;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.List;
 
 public class TrainingActivity extends AppCompatActivity {
 
-    private TextView txtTrainName, txtTrainStats;
     private ImageView imgLutemon;
-    private Button btnTrain, btnMoveHome;
-    private List<Lutemon> trainingLutemons;
-    private int currentIndex = 0; // 当前训练的 Lutemon 索引
+    private TextView txtTrainName, txtTrainStats;
+    private Button btnTrainNow, btnMoveHome, btnSelect;
+
+    private Lutemon selectedLutemon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
 
+        imgLutemon = findViewById(R.id.imgLutemon);
         txtTrainName = findViewById(R.id.txtTrainName);
         txtTrainStats = findViewById(R.id.txtTrainStats);
-        imgLutemon = findViewById(R.id.imgLutemon);
-        btnTrain = findViewById(R.id.btnTrainExp);
+        btnTrainNow = findViewById(R.id.btnTrainExp);
         btnMoveHome = findViewById(R.id.btnMoveHome);
+        btnSelect = findViewById(R.id.btnTrainSelect);
 
-        trainingLutemons = Storage.getInstance().getLutemonsByArea("training");
+        List<Lutemon> trainingLutemons = Storage.getInstance().getLutemonsByArea("training");
 
-        if (trainingLutemons.isEmpty()) {
-            Toast.makeText(this, "No Lutemons in training area.", Toast.LENGTH_SHORT).show();
-            finish();
+        if (trainingLutemons.size() == 0) {
+            txtTrainName.setText("No Lutemons in training");
+            txtTrainStats.setText("");
+            btnTrainNow.setVisibility(View.GONE);
+            btnSelect.setVisibility(View.GONE);
             return;
+        } else if (trainingLutemons.size() == 1) {
+            selectedLutemon = trainingLutemons.get(0);
+            showLutemonDetails(selectedLutemon);
+            btnTrainNow.setVisibility(View.VISIBLE);
+            btnSelect.setVisibility(View.GONE);
+        } else {
+            btnTrainNow.setVisibility(View.GONE);
+            btnSelect.setVisibility(View.VISIBLE);
         }
 
-        showCurrentLutemon();
-
-        btnTrain.setOnClickListener(v -> {
-            Lutemon lutemon = trainingLutemons.get(currentIndex);
-            lutemon.gainExperience();
-            StatisticsManager.getInstance().incrementTrain(lutemon.getId());
-            Toast.makeText(this, "+1 Experience", Toast.LENGTH_SHORT).show();
-            showCurrentLutemon(); // 更新UI
+        btnTrainNow.setOnClickListener(v -> {
+            if (selectedLutemon != null) {
+                selectedLutemon.gainExperience();
+                StatisticsManager.getInstance().incrementTraining(selectedLutemon.getId());
+                showLutemonDetails(selectedLutemon);
+                Toast.makeText(this, "Training +1", Toast.LENGTH_SHORT).show();
+            }
         });
 
         btnMoveHome.setOnClickListener(v -> {
-            Lutemon lutemon = trainingLutemons.get(currentIndex);
-            Storage.getInstance().moveLutemon(lutemon.getId(), "training", "home");
-            Toast.makeText(this, "Moved to Home", Toast.LENGTH_SHORT).show();
-
-            trainingLutemons.remove(currentIndex);
-            if (trainingLutemons.isEmpty()) {
-                finish(); // 没有可训练的了
-            } else {
-                if (currentIndex >= trainingLutemons.size()) {
-                    currentIndex = 0;
-                }
-                showCurrentLutemon();
+            if (selectedLutemon != null) {
+                Storage.getInstance().moveLutemon(selectedLutemon.getId(), "training", "home");
+                Toast.makeText(this, "Moved to Home", Toast.LENGTH_SHORT).show();
+                finish(); // 返回上一页
             }
         });
+
+        btnSelect.setOnClickListener(v -> showSelectionDialog());
     }
 
-    private void showCurrentLutemon() {
-        if (trainingLutemons.isEmpty()) return;
+    private void showSelectionDialog() {
+        List<Lutemon> trainingLutemons = Storage.getInstance().getLutemonsByArea("training");
+        String[] lutemonNames = new String[trainingLutemons.size()];
+        for (int i = 0; i < trainingLutemons.size(); i++) {
+            lutemonNames[i] = trainingLutemons.get(i).getName() + " (" + trainingLutemons.get(i).getColor() + ")";
+        }
 
-        Lutemon l = trainingLutemons.get(currentIndex);
+        new AlertDialog.Builder(this)
+                .setTitle("Select Lutemon to Train")
+                .setItems(lutemonNames, (dialog, which) -> {
+                    selectedLutemon = trainingLutemons.get(which);
+                    showLutemonDetails(selectedLutemon);
+                    btnTrainNow.setVisibility(View.VISIBLE);
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void showLutemonDetails(Lutemon l) {
         txtTrainName.setText(l.getName() + " (" + l.getColor() + ")");
-        txtTrainStats.setText(
-                "ATK: " + l.getAttack() +
-                        " | DEF: " + l.getDefense() +
-                        " | HP: " + l.getHealth() + "/" + l.getMaxHealth() +
-                        " | EXP: " + l.getExperience()
-        );
+        txtTrainStats.setText("ATK: " + l.getAttack() + " | DEF: " + l.getDefense() +
+                " | HP: " + l.getHealth() + "/" + l.getMaxHealth() +
+                " | EXP: " + l.getExperience());
+        setLutemonImage(imgLutemon, l.getColor());
+    }
 
-        // 设置图片，根据颜色切换
-        switch (l.getColor()) {
-            case "White":
-                imgLutemon.setImageResource(R.drawable.white);
+    private void setLutemonImage(ImageView view, String color) {
+        switch (color.toLowerCase()) {
+            case "white":
+                view.setImageResource(R.drawable.white);
                 break;
-            case "Green":
-                imgLutemon.setImageResource(R.drawable.green);
+            case "green":
+                view.setImageResource(R.drawable.green);
                 break;
-            case "Pink":
-                imgLutemon.setImageResource(R.drawable.pink);
+            case "pink":
+                view.setImageResource(R.drawable.pink);
                 break;
-            case "Orange":
-                imgLutemon.setImageResource(R.drawable.orange);
+            case "orange":
+                view.setImageResource(R.drawable.orange);
                 break;
-            case "Black":
-                imgLutemon.setImageResource(R.drawable.black);
+            case "black":
+                view.setImageResource(R.drawable.black);
                 break;
             default:
-                imgLutemon.setImageResource(R.drawable.ic_launcher_foreground);
-                break;
+                view.setImageResource(R.drawable.ic_launcher_foreground);
         }
     }
 }
+
+
 
 
